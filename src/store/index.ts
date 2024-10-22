@@ -6,6 +6,7 @@ import { DraftPatient, Patient } from '../types';
 type PatientState = {
   patients:Patient[]
   addPatient:(data:DraftPatient) => void
+  deletePatient:(id:Patient['id']) => void
 }
 
 // Función para crear el paciente, toma un patient de typo DraftPatient y nos retora un Patient
@@ -25,6 +26,13 @@ export const usePatientStore = create<PatientState>((set)=>({
     // modificamos el state
     set((state)=>({
       patients:[...state.patients, newPatient]
+    }))
+  },
+  deletePatient: (id)=>{
+    // Eliminamos el paciuente
+    set((state)=>({
+      // Traemos solos los paciente cuyos id son diferens al id que pasamos
+      patients: state.patients.filter(patient=>patient.id !== id)
     }))
   }
 }))
