@@ -2,16 +2,25 @@
 import { useForm } from 'react-hook-form';
 import { Error } from './Error';
 import { DraftPatient } from '../types';
+// importamos nuestro customHook
+import {usePatientStore} from '../store'
+
 
 
 export const PatientForm = () => {
-  // Destructuramos nuextro useForm, cuando se genere, utilizamos el mismo type para data y useForm
-  const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>();
+
+  // Destructuramos nuestro usePatientStore
+  const { addPatient} = usePatientStore()
+
+  // Destructuramos nuestro useForm, cuando se genere, utilizamos el mismo type para data y useForm
+  const { register, handleSubmit,reset, formState: { errors } } = useForm<DraftPatient>();
 
   // Función para registrar el paciente, es nuestra conexión entre reac-hook-form y el formulario
   const registerPatient = (data:DraftPatient) => {
     // Recuperamos lo que el usuario ingreso en el formulario con data
-    console.log(data);
+    addPatient(data)
+    // Limpiamos el formulario
+    reset()
   };
 
   return (
