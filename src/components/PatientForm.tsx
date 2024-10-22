@@ -4,21 +4,43 @@ import { Error } from './Error';
 import { DraftPatient } from '../types';
 // importamos nuestro customHook
 import {usePatientStore} from '../store'
+import { useEffect } from 'react';
 
 
 
 export const PatientForm = () => {
 
   // Destructuramos nuestro usePatientStore
-  const { addPatient} = usePatientStore()
+  const { addPatient,activeId,patients,updatePatient} = usePatientStore()
 
   // Destructuramos nuestro useForm, cuando se genere, utilizamos el mismo type para data y useForm
-  const { register, handleSubmit,reset, formState: { errors } } = useForm<DraftPatient>();
+  const { register, handleSubmit,reset,setValue, formState: { errors } } = useForm<DraftPatient>();
+
+  // identificamos si activeId tiene algo
+  useEffect(()=>{
+    if(activeId){
+      // Obtenemos el paciente con el id que seleccionamos y lo traemos como objeto, al obtener solo una posición
+      const activePatient = patients.filter(patient=>patient.id === activeId)[0]
+      // Llevamos los datos del usuario a editar a nuestro formulario
+      setValue('name',activePatient.name)
+      setValue('caretaker',activePatient.caretaker)
+      setValue('email',activePatient.email)
+      setValue('date',activePatient.date)
+      setValue('symptoms',activePatient.symptoms)
+    }
+  },[activeId])
+
 
   // Función para registrar el paciente, es nuestra conexión entre reac-hook-form y el formulario
   const registerPatient = (data:DraftPatient) => {
     // Recuperamos lo que el usuario ingreso en el formulario con data
-    addPatient(data)
+    //Validamos si editamos o registramos un paciente
+    if(activeId){
+      updatePatient(data)
+    }else{
+      addPatient(data)
+    }
+    
     // Limpiamos el formulario
     reset()
   };
@@ -135,7 +157,7 @@ export const PatientForm = () => {
         <input
           type="submit"
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-          value='Guardar Paciente'
+          value={activeId?'Actualizar Paciente':'Guardar Paciente'}
         />
       </form>
     </div>

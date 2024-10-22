@@ -3,9 +3,7 @@ import { PatientDetails } from './PatientDetails';
 
 export const PatientsList = () => {
   // const {patients} = usePatientStore()
-  const patients = usePatientStore( ( state ) => state.patients );
-
-  console.log( patients );
+  const patients = usePatientStore( ( state ) => state.patients )
   return (
     <div className="md:w-1/2 lg:3/5 sm:h-screen overflow-y-scroll">
       { patients.length ?
