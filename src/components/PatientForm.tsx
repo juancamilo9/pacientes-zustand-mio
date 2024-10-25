@@ -5,6 +5,8 @@ import { DraftPatient } from '../types';
 // importamos nuestro customHook
 import {usePatientStore} from '../store'
 import { useEffect } from 'react';
+// Mostrar notificaciones
+import { toast } from 'react-toastify';
 
 
 
@@ -37,8 +39,10 @@ export const PatientForm = () => {
     //Validamos si editamos o registramos un paciente
     if(activeId){
       updatePatient(data)
+      toast.info("paciente editado")
     }else{
       addPatient(data)
+      toast.success("Paciente registrado")
     }
     
     // Limpiamos el formulario
