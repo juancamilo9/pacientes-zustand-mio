@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { DraftPatient, Patient } from '../types';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 
 // Tye local para usePatientStore
 type PatientState = {
@@ -22,7 +22,8 @@ const createPatient = ( patient: DraftPatient ): Patient => {
 };
 
 export const usePatientStore = create<PatientState>()(
-  devtools( ( set ) => ( {
+  devtools(
+    persist(( set ) => ( {
     //state
     patients: [],
     activeId: '',
@@ -53,6 +54,7 @@ export const usePatientStore = create<PatientState>()(
         activeId:''
       }))
     }
-  } )
-  )
-);
+  }),{
+    name:'patient-storage'
+  })
+));

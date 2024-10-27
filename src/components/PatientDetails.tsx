@@ -21,7 +21,6 @@ export const PatientDetails = ({patient}:PatientDetilsProps) => {
 
   return (
     <div className="mx-5 my-10 px-5 py-10 bg-white shadow-md rounded-xl">
-            <PatientDetailItem label="ID" data={id} />
             <PatientDetailItem label="Nombre" data={name} />
             <PatientDetailItem label="Propietario" data={caretaker} />
             <PatientDetailItem label="Email" data={email} />
